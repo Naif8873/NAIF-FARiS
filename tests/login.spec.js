@@ -65,3 +65,86 @@ test.describe("Login Tests", () => {
     await expect(inventoryPage.pageTitle).toHaveText("Products");
   });
 });
+
+test.describe("Negative Login Tests", () => {
+  test.beforeEach("Navigate to Login Page", async ({ page }) => {
+    await page.goto(BASE_URL);
+  });
+
+  test("Login with empty username should fail", async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.login(
+      USERS.user_not2.username, // שם משתמש ריק
+      USERS.user_not2.password
+    );
+
+    // Should show error message and stay on login page
+    await expect(page).toHaveURL(BASE_URL);
+  });
+
+  test("Login with non-existent user should fail", async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.login(
+      USERS.user_not.username, // משתמש לא קיים
+      USERS.user_not.password
+    );
+
+    // Should show error message and stay on login page
+    await expect(page).toHaveURL(BASE_URL);
+  });
+
+  test("Login with wrong password should fail", async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.login(
+      USERS.out_user.username, // שם משתמש תקין אבל סיסמה שגויה
+      USERS.out_user.password
+    );
+
+    // Should show error message and stay on login page
+    await expect(page).toHaveURL(BASE_URL);
+  });
+
+  test("Login with user_not1 should fail", async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.login(
+      USERS.user_not1.username, // משתמש לא קיים עם סיסמה שגויה
+      USERS.user_not1.password
+    );
+
+    // Should show error message and stay on login page
+    await expect(page).toHaveURL(BASE_URL);
+  });
+
+  test("Login with user_not3 should fail", async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.login(
+      USERS.user_not3.username, // משתמש לא קיים עם סיסמה שגויה
+      USERS.user_not3.password
+    );
+
+    // Should show error message and stay on login page
+    await expect(page).toHaveURL(BASE_URL);
+  });
+
+  test("Login with empty password should fail", async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.login(
+      USERS.user_not4.username, // שם משתמש תקין אבל סיסמה ריקה
+      USERS.user_not4.password
+    );
+
+    // Should show error message and stay on login page
+    await expect(page).toHaveURL(BASE_URL);
+  });
+
+  test("Login with both empty credentials should fail", async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.login(
+      USERS.user_not5.username, // שם משתמש ריק וסיסמה ריקה
+      USERS.user_not5.password
+    );
+
+    // Should show error message and stay on login page
+    await expect(page).toHaveURL(BASE_URL);
+  });
+});

@@ -25,6 +25,29 @@ export const USERS = {
     username: "standard_user",
     password: "secret",
   },
+  user_not: {
+    username: "user_not",
+    password: "secret_sauce",
+  },
+  user_not1: {
+    username: "user_not1",
+    password: "secretsauce",
+  },
+  user_not2: {
+    username: "",
+    password: "secret_sauce",
+  },
+  user_not3: {
+    username: "user_not3",
+    password: "secretsauce",
+  },
+  user_not4: {
+    username: "standard_user",
+    password: "",
+  },
+  user_not5: {
+    username: "",
+    password: "",
+  },
 };
-
 
