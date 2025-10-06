@@ -7,14 +7,14 @@ import { USERS } from "../data/users.js";
 
 test("Visual Demo - Add products to cart", async ({ page }) => {
   console.log("🚀 מתחיל את הבדיקה...");
-  
+
   // פתיחת הדף
   await page.goto(BASE_URL);
   console.log("📱 נפתח דף הלוגין");
-  
+
   // המתנה כדי לראות
   await page.waitForTimeout(2000);
-  
+
   const loginPage = new LoginPage(page);
   const inventoryPage = new InventoryPage(page);
   const cartPage = new CartPage(page);
@@ -25,7 +25,7 @@ test("Visual Demo - Add products to cart", async ({ page }) => {
     USERS.standardUser.username,
     USERS.standardUser.password
   );
-  
+
   // המתנה לראות את עמוד המוצרים
   await page.waitForTimeout(2000);
   console.log("🛍️ הגעתי לעמוד המוצרים");
@@ -38,7 +38,7 @@ test("Visual Demo - Add products to cart", async ({ page }) => {
   console.log("➕ מוסיף מוצר ראשון - Backpack");
   await inventoryPage.addBackpackToCart.click();
   await page.waitForTimeout(1500);
-  
+
   // הוספת המוצר השני
   console.log("➕ מוסיף מוצר שני - Bike Light");
   await inventoryPage.addBikeLightToCart.click();
@@ -61,15 +61,15 @@ test("Visual Demo - Add products to cart", async ({ page }) => {
   // בדיקה שיש 2 פריטים
   console.log("✅ בודק שיש 2 פריטים בעגלה");
   await expect(cartPage.cartItems).toHaveCount(2);
-  
+
   // בדיקה שמות המוצרים
   const itemNames = await cartPage.getCartItemNames();
   expect(itemNames).toContain("Sauce Labs Backpack");
   expect(itemNames).toContain("Sauce Labs Bike Light");
-  
+
   console.log("🎉 הבדיקה הושלמה בהצלחה!");
   console.log("📦 מוצרים בעגלה:", itemNames);
-  
+
   // המתנה סופית כדי לראות את התוצאה
   await page.waitForTimeout(3000);
 });
