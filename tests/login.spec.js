@@ -4,7 +4,7 @@ import { LoginPage } from "../pages/LoginPage.js";
 import { InventoryPage } from "../pages/InventoryPage.js";
 import { USERS } from "../data/users.js";
 
-test.describe("Login Tests", () => {
+test.describe("Positive Login Tests", () => {
   test.beforeEach("Navigate to Login Page", async ({ page }) => {
     await page.goto(BASE_URL);
   });
@@ -33,7 +33,7 @@ test.describe("Login Tests", () => {
 
   test(
     "Login with performance glitch user",
-    { timeout: 60000 },
+    { timeout: 60000 }, // why you use timeout of 60 seconds here?
     async ({ page }) => {
       const loginPage = new LoginPage(page);
       const inventoryPage = new InventoryPage(page);
@@ -66,7 +66,7 @@ test.describe("Login Tests", () => {
   });
 });
 
-test.describe("Negative Login Tests", () => {
+test.describe("Negative Login Tests", () => { // why you dont assert the error message itself for each of the test cases??
   test.beforeEach("Navigate to Login Page", async ({ page }) => {
     await page.goto(BASE_URL);
   });
