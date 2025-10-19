@@ -8,7 +8,7 @@ import { CheckoutStepTwoPage } from "../pages/CheckoutStepTwoPage.js";
 import { CheckoutCompletePage } from "../pages/CheckoutCompletePage.js";
 import { USERS } from "../data/users.js";
 
-test.describe("Login Tests", () => {
+test.describe("Login Tests", () => { // why the suite name is login tests? this sanity scenatio needs to be 1 test case - e2e flow - fix it and then i will check this entire file again
   test.beforeEach("Navigate to Login Page", async ({ page }) => {
     await page.goto(BASE_URL);
   });
