@@ -4,8 +4,8 @@ import { LoginPage } from "../pages/LoginPage.js";
 import { InventoryPage } from "../pages/InventoryPage.js";
 import { USERS } from "../data/users.js";
 
-test.describe("Login Tests", () => {
-  test.beforeEach("Navigate to Login Page", async ({ page }) => {
+test.describe("Positive Login Tests", () => {
+  test.beforeEach("Open Login Page", async ({ page }) => {
     await page.goto(BASE_URL);
   });
 
