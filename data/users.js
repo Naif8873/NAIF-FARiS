@@ -1,5 +1,3 @@
-import { error } from "console";
-
 export const USERS = {
   standardUser: {
     username: "standard_user",
@@ -21,31 +19,31 @@ export const USERS = {
     username: "visual_user",
     password: "secret_sauce",
   },
-  out_user: {
-    username: "standard_user",
-    password: "secret",
-  },
-  user_not: {
-    username: "user_not",
+  lockedOutUser: { // Previously out_user - more meaningful name
+    username: "locked_out_user",
     password: "secret_sauce",
   },
-  user_not1: {
-    username: "user_not1",
-    password: "secretsauce",
+  invalidPasswordUser: { // Previously user_not - more meaningful name
+    username: "standard_user",
+    password: "wrong_password",
   },
-  user_not2: {
+  invalidUsernameUser: { // Previously user_not1 - more meaningful name
+    username: "invalid_username",
+    password: "secret_sauce",
+  },
+  emptyUsernameUser: { // Previously user_not2 - more meaningful name
     username: "",
     password: "secret_sauce",
   },
-  user_not3: {
-    username: "user_not3",
-    password: "secretsauce",
+  bothInvalidUser: { // Previously user_not3 - more meaningful name
+    username: "invalid_user",
+    password: "wrong_password",
   },
-  user_not4: {
+  emptyPasswordUser: { // Previously user_not4 - more meaningful name
     username: "standard_user",
     password: "",
   },
-  user_not5: {
+  emptyBothFieldsUser: { // Previously user_not5 - more meaningful name
     username: "",
     password: "",
   },

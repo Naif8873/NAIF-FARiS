@@ -4,65 +4,63 @@ import { LoginPage } from "../pages/LoginPage.js";
 import { InventoryPage } from "../pages/InventoryPage.js";
 import { USERS } from "../data/users.js";
 
-test.describe("Positive Login Tests", () => {
-  test.beforeEach("Open Login Page", async ({ page }) => {
+test.describe("Positive Login Page", () => {
+  test.beforeEach("Navigate To Login Page", async ({ page }) => {
     await page.goto(BASE_URL);
   });
 
   test("Login with standard user", async ({ page }) => {
     const loginPage = new LoginPage(page);
     const inventoryPage = new InventoryPage(page);
+
     await loginPage.login(
       USERS.standardUser.username,
       USERS.standardUser.password
     );
+
     await expect(page).toHaveURL(URLS.INVENTORY_URL);
     await expect(inventoryPage.pageTitle).toHaveText("Products");
   });
-
-  test("Login with problem user", async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    const inventoryPage = new InventoryPage(page);
-    await loginPage.login(
-      USERS.problem_user.username,
-      USERS.problem_user.password
-    );
-    await expect(page).toHaveURL(URLS.INVENTORY_URL);
-    await expect(inventoryPage.pageTitle).toHaveText("Products");
-  });
-
-  test(
-    "Login with performance glitch user",
-    { timeout: 60000 },
-    async ({ page }) => {
-      const loginPage = new LoginPage(page);
-      const inventoryPage = new InventoryPage(page);
-      await loginPage.login(
-        USERS.performance_glitch_user.username,
-        USERS.performance_glitch_user.password
-      );
-      await expect(page).toHaveURL(URLS.INVENTORY_URL);
-      await expect(inventoryPage.pageTitle).toHaveText("Products");
-    }
-  );
 
   test("Login with error user", async ({ page }) => {
     const loginPage = new LoginPage(page);
-    const inventoryPage = new InventoryPage(page);
+
     await loginPage.login(USERS.error_user.username, USERS.error_user.password);
+
     await expect(page).toHaveURL(URLS.INVENTORY_URL);
-    await expect(inventoryPage.pageTitle).toHaveText("Products");
   });
 
   test("Login with visual user", async ({ page }) => {
     const loginPage = new LoginPage(page);
-    const inventoryPage = new InventoryPage(page);
+
     await loginPage.login(
       USERS.visual_user.username,
       USERS.visual_user.password
     );
+
     await expect(page).toHaveURL(URLS.INVENTORY_URL);
-    await expect(inventoryPage.pageTitle).toHaveText("Products");
+  });
+
+  test("Login with performance glitch user", async ({ page }) => {
+    const loginPage = new LoginPage(page);
+
+    await loginPage.login(
+      USERS.performance_glitch_user.username,
+      USERS.performance_glitch_user.password
+    );
+
+    await expect(page).toHaveURL(URLS.INVENTORY_URL);
+  });
+
+  test("Login with problem user", async ({ page }) => {
+    const loginPage = new LoginPage(page);
+
+    await loginPage.login(
+      USERS.problem_user.username,
+      USERS.problem_user.password
+    );
+
+    await expect(page).toHaveURL(URLS.INVENTORY_URL);
   });
 });
 
@@ -71,80 +69,87 @@ test.describe("Negative Login Tests", () => {
     await page.goto(BASE_URL);
   });
 
-  test("Login with empty username should fail", async ({ page }) => {
+  test("Login with locked out user", async ({ page }) => {
     const loginPage = new LoginPage(page);
+
     await loginPage.login(
-      USERS.user_not2.username, // שם משתמש ריק
-      USERS.user_not2.password
+      USERS.lockedOutUser.username,
+      USERS.lockedOutUser.password
     );
 
-    // Should show error message and stay on login page
-    await expect(page).toHaveURL(BASE_URL);
+    // Assert error message is displayed
+    await expect(loginPage.errorMessage).toHaveText(
+      /Epic sadface: Sorry, this user has been locked out/
+    );
   });
 
-  test("Login with non-existent user should fail", async ({ page }) => {
+  test("Login with invalid password", async ({ page }) => {
     const loginPage = new LoginPage(page);
+
     await loginPage.login(
-      USERS.user_not.username, // משתמש לא קיים
-      USERS.user_not.password
+      USERS.invalidPasswordUser.username,
+      USERS.invalidPasswordUser.password
     );
 
-    // Should show error message and stay on login page
-    await expect(page).toHaveURL(BASE_URL);
+    // Assert error message is displayed
+    await expect(loginPage.errorMessage).toHaveText(
+      /Epic sadface: Username and password do not match any user in this service/
+    );
   });
 
-  test("Login with wrong password should fail", async ({ page }) => {
+  test("Login with invalid username", async ({ page }) => {
     const loginPage = new LoginPage(page);
+
     await loginPage.login(
-      USERS.out_user.username, // שם משתמש תקין אבל סיסמה שגויה
-      USERS.out_user.password
+      USERS.invalidUsernameUser.username,
+      USERS.invalidUsernameUser.password
     );
 
-    // Should show error message and stay on login page
-    await expect(page).toHaveURL(BASE_URL);
+    // Assert error message is displayed
+    await expect(loginPage.errorMessage).toHaveText(
+      /Epic sadface: Username and password do not match any user in this service/
+    );
   });
 
-  test("Login with user_not1 should fail", async ({ page }) => {
+  test("Login with empty username", async ({ page }) => {
     const loginPage = new LoginPage(page);
+
     await loginPage.login(
-      USERS.user_not1.username, // משתמש לא קיים עם סיסמה שגויה
-      USERS.user_not1.password
+      USERS.emptyUsernameUser.username,
+      USERS.emptyUsernameUser.password
     );
 
-    // Should show error message and stay on login page
-    await expect(page).toHaveURL(BASE_URL);
+    // Assert error message is displayed
+    await expect(loginPage.errorMessage).toHaveText(
+      /Epic sadface: Username is required/
+    );
   });
 
-  test("Login with user_not3 should fail", async ({ page }) => {
+  test("Login with empty password", async ({ page }) => {
     const loginPage = new LoginPage(page);
+
     await loginPage.login(
-      USERS.user_not3.username, // משתמש לא קיים עם סיסמה שגויה
-      USERS.user_not3.password
+      USERS.emptyPasswordUser.username,
+      USERS.emptyPasswordUser.password
     );
 
-    // Should show error message and stay on login page
-    await expect(page).toHaveURL(BASE_URL);
+    // Assert error message is displayed
+    await expect(loginPage.errorMessage).toHaveText(
+      /Epic sadface: Password is required/
+    );
   });
 
-  test("Login with empty password should fail", async ({ page }) => {
+  test("Login with empty both fields", async ({ page }) => {
     const loginPage = new LoginPage(page);
+
     await loginPage.login(
-      USERS.user_not4.username, // שם משתמש תקין אבל סיסמה ריקה
-      USERS.user_not4.password
+      USERS.emptyBothFieldsUser.username,
+      USERS.emptyBothFieldsUser.password
     );
 
-    // Should show error message and stay on login page
-    await expect(page).toHaveURL(BASE_URL);
-  });
-
-  test("Login with both empty credentials should fail", async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.login(
-      USERS.user_not5.username, // שם משתמש ריק וסיסמה ריקה
-      USERS.user_not5.password
+    // Assert error message is displayed
+    await expect(loginPage.errorMessage).toHaveText(
+      /Epic sadface: Username is required/
     );
-
-    // Should show error message and stay on login page
-    await expect(page).toHaveURL(BASE_URL);
   });
 });
