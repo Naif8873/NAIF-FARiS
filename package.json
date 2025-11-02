@@ -1,23 +1,23 @@
 {
-  "name": "naif-faris",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {},
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Naif8873/NAIF-FARiS.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "module",
-  "bugs": {
-    "url": "https://github.com/Naif8873/NAIF-FARiS/issues"
-  },
-  "homepage": "https://github.com/Naif8873/NAIF-FARiS#readme",
-  "devDependencies": {
-    "@playwright/test": "^1.55.0",
-    "@types/node": "^24.5.2"
-  }
+	"name": "naif-faris",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Naif8873/NAIF-FARiS.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"type": "module",
+	"bugs": {
+		"url": "https://github.com/Naif8873/NAIF-FARiS/issues"
+	},
+	"homepage": "https://github.com/Naif8873/NAIF-FARiS#readme",
+	"devDependencies": {
+		"@playwright/test": "^1.55.0",
+		"@types/node": "^24.5.2"
+	}
 }
