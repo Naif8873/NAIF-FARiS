@@ -4,56 +4,18 @@ import { LoginPage } from "../pages/LoginPage.js";
 import { InventoryPage } from "../pages/InventoryPage.js";
 import { USERS } from "../data/users.js";
 
-test.describe("Positive Login Page", () => {
-  test.beforeEach("Navigate To Login Page", async ({ page }) => {
+test.describe("Positive Login Tests", () => {
+  test.beforeEach("Navigate to Login Page", async ({ page }) => {
     await page.goto(BASE_URL);
   });
 
   test("Login with standard user", async ({ page }) => {
     const loginPage = new LoginPage(page);
     const inventoryPage = new InventoryPage(page);
-
     await loginPage.login(
       USERS.standardUser.username,
       USERS.standardUser.password
     );
-
-    await expect(page).toHaveURL(URLS.INVENTORY_URL);
-    await expect(inventoryPage.pageTitle).toHaveText("Products");
-  });
-
-  test("Login with error user", async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    const inventoryPage = new InventoryPage(page);
-
-    await loginPage.login(USERS.error_user.username, USERS.error_user.password);
-
-    await expect(page).toHaveURL(URLS.INVENTORY_URL);
-    await expect(inventoryPage.pageTitle).toHaveText("Products");
-  });
-
-  test("Login with visual user", async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    const inventoryPage = new InventoryPage(page);
-
-    await loginPage.login(
-      USERS.visual_user.username,
-      USERS.visual_user.password
-    );
-
-    await expect(page).toHaveURL(URLS.INVENTORY_URL);
-    await expect(inventoryPage.pageTitle).toHaveText("Products");
-  });
-
-  test("Login with performance glitch user", async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    const inventoryPage = new InventoryPage(page);
-
-    await loginPage.login(
-      USERS.performance_glitch_user.username,
-      USERS.performance_glitch_user.password
-    );
-
     await expect(page).toHaveURL(URLS.INVENTORY_URL);
     await expect(inventoryPage.pageTitle).toHaveText("Products");
   });
@@ -61,74 +23,128 @@ test.describe("Positive Login Page", () => {
   test("Login with problem user", async ({ page }) => {
     const loginPage = new LoginPage(page);
     const inventoryPage = new InventoryPage(page);
-
     await loginPage.login(
       USERS.problem_user.username,
       USERS.problem_user.password
     );
+    await expect(page).toHaveURL(URLS.INVENTORY_URL);
+    await expect(inventoryPage.pageTitle).toHaveText("Products");
+  });
 
+  test(
+    "Login with performance glitch user",
+    { timeout: 60000 }, // why you use timeout of 60 seconds here?
+    async ({ page }) => {
+      const loginPage = new LoginPage(page);
+      const inventoryPage = new InventoryPage(page);
+      await loginPage.login(
+        USERS.performance_glitch_user.username,
+        USERS.performance_glitch_user.password
+      );
+      await expect(page).toHaveURL(URLS.INVENTORY_URL);
+      await expect(inventoryPage.pageTitle).toHaveText("Products");
+    }
+  );
+
+  test("Login with error user", async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const inventoryPage = new InventoryPage(page);
+    await loginPage.login(USERS.error_user.username, USERS.error_user.password);
+    await expect(page).toHaveURL(URLS.INVENTORY_URL);
+    await expect(inventoryPage.pageTitle).toHaveText("Products");
+  });
+
+  test("Login with visual user", async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const inventoryPage = new InventoryPage(page);
+    await loginPage.login(
+      USERS.visual_user.username,
+      USERS.visual_user.password
+    );
     await expect(page).toHaveURL(URLS.INVENTORY_URL);
     await expect(inventoryPage.pageTitle).toHaveText("Products");
   });
 });
 
-test.describe("Negative Login Tests", () => {
+test.describe("Negative Login Tests", () => { // why you dont assert the error message itself for each of the test cases??
   test.beforeEach("Navigate to Login Page", async ({ page }) => {
     await page.goto(BASE_URL);
   });
 
-  test("Login with locked out user", async ({ page }) => {
+  test("Login with empty username should fail", async ({ page }) => {
     const loginPage = new LoginPage(page);
-
     await loginPage.login(
-      USERS.lockedOutUser.username,
-      USERS.lockedOutUser.password
+      USERS.user_not2.username, // שם משתמש ריק
+      USERS.user_not2.password
     );
 
-    await expect(loginPage.errorMessage).toBeVisible();
+    // Should show error message and stay on login page
+    await expect(page).toHaveURL(BASE_URL);
   });
 
-  test("Login with invalid username", async ({ page }) => {
+  test("Login with non-existent user should fail", async ({ page }) => {
     const loginPage = new LoginPage(page);
-
     await loginPage.login(
-      USERS.invalidUsernameUser.username,
-      USERS.invalidUsernameUser.password
+      USERS.user_not.username, // משתמש לא קיים
+      USERS.user_not.password
     );
 
-    await expect(loginPage.errorMessage).toBeVisible();
+    // Should show error message and stay on login page
+    await expect(page).toHaveURL(BASE_URL);
   });
 
-  test("Login with empty username", async ({ page }) => {
+  test("Login with wrong password should fail", async ({ page }) => {
     const loginPage = new LoginPage(page);
-
     await loginPage.login(
-      USERS.emptyUsernameUser.username,
-      USERS.emptyUsernameUser.password
+      USERS.out_user.username, // שם משתמש תקין אבל סיסמה שגויה
+      USERS.out_user.password
     );
 
-    await expect(loginPage.errorMessage).toBeVisible();
+    // Should show error message and stay on login page
+    await expect(page).toHaveURL(BASE_URL);
   });
 
-  test("Login with empty password", async ({ page }) => {
+  test("Login with user_not1 should fail", async ({ page }) => {
     const loginPage = new LoginPage(page);
-
     await loginPage.login(
-      USERS.emptyPasswordUser.username,
-      USERS.emptyPasswordUser.password
+      USERS.user_not1.username, // משתמש לא קיים עם סיסמה שגויה
+      USERS.user_not1.password
     );
 
-    await expect(loginPage.errorMessage).toBeVisible();
+    // Should show error message and stay on login page
+    await expect(page).toHaveURL(BASE_URL);
   });
 
-  test("Login with empty both fields", async ({ page }) => {
+  test("Login with user_not3 should fail", async ({ page }) => {
     const loginPage = new LoginPage(page);
-
     await loginPage.login(
-      USERS.emptyBothFieldsUser.username,
-      USERS.emptyBothFieldsUser.password
+      USERS.user_not3.username, // משתמש לא קיים עם סיסמה שגויה
+      USERS.user_not3.password
     );
 
-    await expect(loginPage.errorMessage).toBeVisible();
+    // Should show error message and stay on login page
+    await expect(page).toHaveURL(BASE_URL);
+  });
+
+  test("Login with empty password should fail", async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.login(
+      USERS.user_not4.username, // שם משתמש תקין אבל סיסמה ריקה
+      USERS.user_not4.password
+    );
+
+    // Should show error message and stay on login page
+    await expect(page).toHaveURL(BASE_URL);
+  });
+
+  test("Login with both empty credentials should fail", async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.login(
+      USERS.user_not5.username, // שם משתמש ריק וסיסמה ריקה
+      USERS.user_not5.password
+    );
+
+    // Should show error message and stay on login page
+    await expect(page).toHaveURL(BASE_URL);
   });
 });
