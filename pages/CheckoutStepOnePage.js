@@ -6,7 +6,6 @@ export class CheckoutStepOnePage {
     this.lastNameInput = page.locator('[data-test="lastName"]');
     this.postalCodeInput = page.locator('[data-test="postalCode"]');
     this.continueButton = page.locator('[data-test="continue"]');
-    this.cancelButton = page.locator('[data-test="cancel"]');
     this.errorMessage = page.locator('[data-test="error"]');
   }
 
@@ -18,9 +17,5 @@ export class CheckoutStepOnePage {
 
   async clickContinue() {
     await this.continueButton.click();
-  }
-
-  async clickCancel() {
-    await this.cancelButton.click();
   }
 }

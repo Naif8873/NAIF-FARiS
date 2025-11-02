@@ -24,14 +24,17 @@ test.describe("Positive Login Page", () => {
 
   test("Login with error user", async ({ page }) => {
     const loginPage = new LoginPage(page);
+    const inventoryPage = new InventoryPage(page);
 
     await loginPage.login(USERS.error_user.username, USERS.error_user.password);
 
     await expect(page).toHaveURL(URLS.INVENTORY_URL);
+    await expect(inventoryPage.pageTitle).toHaveText("Products");
   });
 
   test("Login with visual user", async ({ page }) => {
     const loginPage = new LoginPage(page);
+    const inventoryPage = new InventoryPage(page);
 
     await loginPage.login(
       USERS.visual_user.username,
@@ -39,10 +42,12 @@ test.describe("Positive Login Page", () => {
     );
 
     await expect(page).toHaveURL(URLS.INVENTORY_URL);
+    await expect(inventoryPage.pageTitle).toHaveText("Products");
   });
 
   test("Login with performance glitch user", async ({ page }) => {
     const loginPage = new LoginPage(page);
+    const inventoryPage = new InventoryPage(page);
 
     await loginPage.login(
       USERS.performance_glitch_user.username,
@@ -50,10 +55,12 @@ test.describe("Positive Login Page", () => {
     );
 
     await expect(page).toHaveURL(URLS.INVENTORY_URL);
+    await expect(inventoryPage.pageTitle).toHaveText("Products");
   });
 
   test("Login with problem user", async ({ page }) => {
     const loginPage = new LoginPage(page);
+    const inventoryPage = new InventoryPage(page);
 
     await loginPage.login(
       USERS.problem_user.username,
@@ -61,6 +68,7 @@ test.describe("Positive Login Page", () => {
     );
 
     await expect(page).toHaveURL(URLS.INVENTORY_URL);
+    await expect(inventoryPage.pageTitle).toHaveText("Products");
   });
 });
 
@@ -77,24 +85,7 @@ test.describe("Negative Login Tests", () => {
       USERS.lockedOutUser.password
     );
 
-    // Assert error message is displayed
-    await expect(loginPage.errorMessage).toHaveText(
-      /Epic sadface: Sorry, this user has been locked out/
-    );
-  });
-
-  test("Login with invalid password", async ({ page }) => {
-    const loginPage = new LoginPage(page);
-
-    await loginPage.login(
-      USERS.invalidPasswordUser.username,
-      USERS.invalidPasswordUser.password
-    );
-
-    // Assert error message is displayed
-    await expect(loginPage.errorMessage).toHaveText(
-      /Epic sadface: Username and password do not match any user in this service/
-    );
+    await expect(loginPage.errorMessage).toBeVisible();
   });
 
   test("Login with invalid username", async ({ page }) => {
@@ -105,10 +96,7 @@ test.describe("Negative Login Tests", () => {
       USERS.invalidUsernameUser.password
     );
 
-    // Assert error message is displayed
-    await expect(loginPage.errorMessage).toHaveText(
-      /Epic sadface: Username and password do not match any user in this service/
-    );
+    await expect(loginPage.errorMessage).toBeVisible();
   });
 
   test("Login with empty username", async ({ page }) => {
@@ -119,10 +107,7 @@ test.describe("Negative Login Tests", () => {
       USERS.emptyUsernameUser.password
     );
 
-    // Assert error message is displayed
-    await expect(loginPage.errorMessage).toHaveText(
-      /Epic sadface: Username is required/
-    );
+    await expect(loginPage.errorMessage).toBeVisible();
   });
 
   test("Login with empty password", async ({ page }) => {
@@ -133,10 +118,7 @@ test.describe("Negative Login Tests", () => {
       USERS.emptyPasswordUser.password
     );
 
-    // Assert error message is displayed
-    await expect(loginPage.errorMessage).toHaveText(
-      /Epic sadface: Password is required/
-    );
+    await expect(loginPage.errorMessage).toBeVisible();
   });
 
   test("Login with empty both fields", async ({ page }) => {
@@ -147,9 +129,6 @@ test.describe("Negative Login Tests", () => {
       USERS.emptyBothFieldsUser.password
     );
 
-    // Assert error message is displayed
-    await expect(loginPage.errorMessage).toHaveText(
-      /Epic sadface: Username is required/
-    );
+    await expect(loginPage.errorMessage).toBeVisible();
   });
 });

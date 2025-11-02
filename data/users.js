@@ -19,33 +19,32 @@ export const USERS = {
     username: "visual_user",
     password: "secret_sauce",
   },
-  lockedOutUser: { // Previously out_user - more meaningful name
+  lockedOutUser: {
     username: "locked_out_user",
     password: "secret_sauce",
   },
-  invalidPasswordUser: { // Previously user_not - more meaningful name
+  invalidPasswordUser: {
     username: "standard_user",
     password: "wrong_password",
   },
-  invalidUsernameUser: { // Previously user_not1 - more meaningful name
+  invalidUsernameUser: {
     username: "invalid_username",
     password: "secret_sauce",
   },
-  emptyUsernameUser: { // Previously user_not2 - more meaningful name
+  emptyUsernameUser: {
     username: "",
     password: "secret_sauce",
   },
-  bothInvalidUser: { // Previously user_not3 - more meaningful name
+  bothInvalidUser: {
     username: "invalid_user",
     password: "wrong_password",
   },
-  emptyPasswordUser: { // Previously user_not4 - more meaningful name
+  emptyPasswordUser: {
     username: "standard_user",
     password: "",
   },
-  emptyBothFieldsUser: { // Previously user_not5 - more meaningful name
+  emptyBothFieldsUser: {
     username: "",
     password: "",
   },
 };
-

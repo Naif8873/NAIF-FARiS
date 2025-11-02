@@ -37,9 +37,12 @@ test.describe("Sanity Test", () => {
     await expect(cartPage.pageTitle).toHaveText("Your Cart");
     await expect(cartPage.cartItems).toHaveCount(2);
 
-    const itemNames = await cartPage.getCartItemNames();
-    expect(itemNames).toContain("Sauce Labs Backpack");
-    expect(itemNames).toContain("Sauce Labs Bike Light");
+    await expect(cartPage.cartItemNames.nth(0)).toHaveText(
+      "Sauce Labs Backpack"
+    );
+    await expect(cartPage.cartItemNames.nth(1)).toHaveText(
+      "Sauce Labs Bike Light"
+    );
 
     await cartPage.proceedToCheckout();
     await expect(page).toHaveURL(URLS.CHECKOUT_STEP_ONE_URL);
@@ -62,7 +65,8 @@ test.describe("Sanity Test", () => {
       "Checkout: Complete!"
     );
 
-    const headerText = await checkoutCompletePage.getCompleteHeader();
-    expect(headerText).toContain("Thank you for your order!");
+    await expect(checkoutCompletePage.completeHeader).toHaveText(
+      "Thank you for your order!"
+    );
   });
 });
